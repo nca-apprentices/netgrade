@@ -1,5 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
-import { Semester, Exam } from './';
+import { Semester } from './Semester';
+import { Exam } from './Exam';
 import { BaseEntity } from './BaseEntity';
 
 @Entity('subject')
