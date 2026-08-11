@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { IonButtons, IonContent, IonIcon, IonPage } from '@ionic/react';
+import {
+  IonButtons,
+  IonContent,
+  IonIcon,
+  IonPage,
+  IonSearchbar,
+} from '@ionic/react';
 import {
   add,
   person,
@@ -9,6 +15,7 @@ import {
   chevronBack,
   chevronForward,
   trash,
+  searchOutline,
 } from 'ionicons/icons';
 import SubjectSelectionModal from '@/features/add-subject/subject-selection-modal';
 import Button from '@/components/Button/Button';
@@ -51,6 +58,7 @@ const SchoolPage: React.FC = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [subjectToEdit, setSubjectToEdit] = useState<Subject | null>(null);
   const [activeSemesterIndex, setActiveSemesterIndex] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const { schoolId } = useParams<{ schoolId: string }>();
   const history = useHistory();
 
@@ -67,6 +75,16 @@ const SchoolPage: React.FC = () => {
   const activeSemester = semesters[activeSemesterIndex];
   const filteredSubjects =
     subjects?.filter((s) => s.semesterId === activeSemester?.id) ?? [];
+
+  const search = searchQuery.trim().toLowerCase();
+  const visibleSubjects = search
+    ? filteredSubjects.filter((s) => s.name.toLowerCase().includes(search))
+    : filteredSubjects;
+
+  const changeSemester = (offset: number) => {
+    setActiveSemesterIndex((i) => i + offset);
+    setSearchQuery('');
+  };
 
   const goToGradesPage = (subject: Subject) => {
     history.push(
@@ -128,7 +146,7 @@ const SchoolPage: React.FC = () => {
         <div className="school-semester-selector">
           <button
             className="school-semester-arrow"
-            onClick={() => setActiveSemesterIndex((i) => i - 1)}
+            onClick={() => changeSemester(-1)}
             disabled={activeSemesterIndex === 0}
           >
             <IonIcon icon={chevronBack} />
@@ -138,7 +156,7 @@ const SchoolPage: React.FC = () => {
           </span>
           <button
             className="school-semester-arrow"
-            onClick={() => setActiveSemesterIndex((i) => i + 1)}
+            onClick={() => changeSemester(1)}
             disabled={activeSemesterIndex === semesters.length - 1}
           >
             <IonIcon icon={chevronForward} />
@@ -157,9 +175,20 @@ const SchoolPage: React.FC = () => {
           </button>
         </div>
 
+        {filteredSubjects.length > 0 && (
+          <IonSearchbar
+            className="subjects-searchbar"
+            value={searchQuery}
+            onIonInput={(e) => setSearchQuery(e.detail.value ?? '')}
+            placeholder="Fach suchen"
+            debounce={0}
+            showClearButton="focus"
+          />
+        )}
+
         <div className="subjects-container">
-          {filteredSubjects.length > 0 ? (
-            filteredSubjects.map((subject: Subject) => {
+          {visibleSubjects.length > 0 ? (
+            visibleSubjects.map((subject: Subject) => {
               const average = calculateSubjectAverage(subject);
               return (
                 <div key={subject.id} className="subject-item-container">
@@ -215,10 +244,19 @@ const SchoolPage: React.FC = () => {
           ) : (
             <div className="subjects-empty-state">
               <div className="subjects-empty-icon">
-                <IonIcon icon={add} />
+                <IonIcon icon={search ? searchOutline : add} />
               </div>
-              <h3>Keine Fächer</h3>
-              <p>Füge dein erstes Fach hinzu um zu starten.</p>
+              {search ? (
+                <>
+                  <h3>Keine Treffer</h3>
+                  <p>Kein Fach passt zu „{searchQuery.trim()}“.</p>
+                </>
+              ) : (
+                <>
+                  <h3>Keine Fächer</h3>
+                  <p>Füge dein erstes Fach hinzu um zu starten.</p>
+                </>
+              )}
             </div>
           )}
         </div>
