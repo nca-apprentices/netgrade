@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonModal,
   IonPage,
@@ -17,6 +17,7 @@ import {
 import ModalSubmitButton from '@/shared/components/buttons/submitt-button/modal-submit-button';
 import ModalCancelButton from '@/shared/components/buttons/cancel-button/modal-cancel-button';
 import ModalButtonGroup from '@/shared/components/buttons/modal-button-group';
+import UnsavedChangesAlert from '@/shared/components/form-layout/unsaved-changes-alert';
 
 interface EditSubjectModalProps {
   isOpen: boolean;
@@ -49,6 +50,23 @@ const EditSubjectModal: React.FC<EditSubjectModalProps> = ({
     const newName = subject?.name || '';
     form.setFieldValue('name', newName);
   }, [subject, form]);
+
+  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
+
+  // The form is re-seeded from `subject` whenever it changes, so comparing
+  // against that is more reliable here than the form's own dirty flag. Read on
+  // click rather than via a subscription: the input only commits on blur, so a
+  // rendered value would still be stale when the button fires.
+  const hasUnsavedChanges = () =>
+    form.state.values.name.trim() !== (subject?.name ?? '').trim();
+
+  const requestClose = () =>
+    hasUnsavedChanges() ? setShowUnsavedAlert(true) : onClose();
+
+  const discardChanges = () => {
+    form.setFieldValue('name', subject?.name ?? '');
+    onClose();
+  };
 
   return (
     <IonModal
@@ -92,7 +110,7 @@ const EditSubjectModal: React.FC<EditSubjectModalProps> = ({
 
             <ModalButtonGroup>
               <ModalCancelButton
-                onClick={onClose}
+                onClick={requestClose}
                 disabled={loading}
                 text="Abbrechen"
               />
@@ -112,6 +130,12 @@ const EditSubjectModal: React.FC<EditSubjectModalProps> = ({
 
             <div className="modal-bottom-spacer" />
           </div>
+
+          <UnsavedChangesAlert
+            isOpen={showUnsavedAlert}
+            onDismiss={() => setShowUnsavedAlert(false)}
+            onDiscard={discardChanges}
+          />
         </IonContent>
       </IonPage>
     </IonModal>

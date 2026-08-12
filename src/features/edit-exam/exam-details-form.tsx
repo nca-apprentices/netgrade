@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   IonAlert,
   IonBackButton,
@@ -26,6 +26,7 @@ import {
   calendarOutline,
   chatbubbleOutline,
   checkmarkCircleOutline,
+  chevronBack,
   createOutline,
   documentTextOutline,
   scaleOutline,
@@ -33,6 +34,7 @@ import {
   trashOutline,
   trophyOutline,
 } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
 import { useForm } from '@tanstack/react-form';
 import {
   useAddGradeWithExam,
@@ -54,6 +56,7 @@ import { Routes } from '@/routes';
 import ModalSubmitButton from '@/shared/components/buttons/submitt-button/modal-submit-button';
 import ModalCancelButton from '@/shared/components/buttons/cancel-button/modal-cancel-button';
 import ModalButtonGroup from '@/shared/components/buttons/modal-button-group';
+import UnsavedChangesAlert from '@/shared/components/form-layout/unsaved-changes-alert';
 import styles from './styles/edit-exam-page.module.css';
 import { Layout } from '@/components/Layout/Layout';
 import { GradeFormData } from './types';
@@ -76,6 +79,7 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
   onEditSuccess,
   onError,
 }) => {
+  const history = useHistory();
   const { data: exam, error } = useExam(examId);
   const { data: subjects = [] } = useSubjects();
 
@@ -84,6 +88,11 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
   );
   const [showGradeConfirmModal, setShowGradeConfirmModal] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
+  const isDetailsDirty = useRef<() => boolean>(() => false);
+  const registerDirtyCheck = useCallback((isDirty: () => boolean) => {
+    isDetailsDirty.current = isDirty;
+  }, []);
   const [toastMessage, setToastMessage] = useState('');
   const [toastColor, setToastColor] = useState('primary');
   const [showToast, setShowToast] = useState(false);
@@ -115,6 +124,16 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
   });
 
   const gradeFormValues = gradeForm.state.values as GradeFormData;
+
+  const goBack = () => history.replace(Routes.HOME);
+
+  // Both tabs hold a form, so either one can have unsaved changes. Read them on
+  // click rather than via a subscription: the inputs only commit on blur, so a
+  // rendered flag would still be stale when the button fires.
+  const handleBack = () =>
+    isDetailsDirty.current() || gradeForm.state.isDirty
+      ? setShowUnsavedAlert(true)
+      : goBack();
 
   const addGradeWithExamMutation = useAddGradeWithExam();
   const addExamScansMutation = useAddExamScans();
@@ -241,7 +260,10 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref={Routes.HOME} text="Back" />
+            <IonButton onClick={handleBack} fill="clear">
+              <IonIcon icon={chevronBack} slot="start" />
+              Back
+            </IonButton>
           </IonButtons>
           <IonTitle>Prüfung bearbeiten</IonTitle>
           <IonButtons slot="end">
@@ -300,7 +322,11 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
 
           {segmentValue === 'details' ? (
             exam ? (
-              <EditExamForm exam={exam} onSuccess={onEditSuccess} />
+              <EditExamForm
+                exam={exam}
+                onSuccess={onEditSuccess}
+                registerDirtyCheck={registerDirtyCheck}
+              />
             ) : (
               <div className="ion-padding ion-text-center">
                 <IonSpinner />
@@ -425,6 +451,12 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
               handler: handleDelete,
             },
           ]}
+        />
+
+        <UnsavedChangesAlert
+          isOpen={showUnsavedAlert}
+          onDismiss={() => setShowUnsavedAlert(false)}
+          onDiscard={goBack}
         />
 
         <IonToast
