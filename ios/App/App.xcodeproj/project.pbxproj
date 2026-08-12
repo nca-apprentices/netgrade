@@ -65,7 +65,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		ACFDB59A2FCD5B44007F3828 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		ACFDB59A2FCD5B44007F3828 /* Exceptions for "ExamsWidget" folder in "ExamsWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -75,7 +75,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		ACFDB57E2FCD560F007F3828 /* ExamsWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (ACFDB59A2FCD5B44007F3828 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ExamsWidget; sourceTree = "<group>"; };
+		ACFDB57E2FCD560F007F3828 /* ExamsWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				ACFDB59A2FCD5B44007F3828 /* Exceptions for "ExamsWidget" folder in "ExamsWidgetExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = ExamsWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,8 +206,6 @@
 				ACFDB57E2FCD560F007F3828 /* ExamsWidget */,
 			);
 			name = ExamsWidgetExtension;
-			packageProductDependencies = (
-			);
 			productName = ExamsWidgetExtension;
 			productReference = ACFDB5792FCD560E007F3828 /* ExamsWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -305,6 +314,7 @@
 				"${BUILT_PRODUCTS_DIR}/CapgoCapacitorDocumentScanner/CapgoCapacitorDocumentScanner.framework",
 				"${BUILT_PRODUCTS_DIR}/CordovaPlugins/CordovaPlugins.framework",
 				"${BUILT_PRODUCTS_DIR}/IONCameraLib/IONCameraLib.framework",
+				"${BUILT_PRODUCTS_DIR}/JcesarmobileCapacitorOcr/JcesarmobileCapacitorOcr.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLCipher/SQLCipher.framework",
 				"${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/IONFilesystemLib/IONFilesystemLib.framework/IONFilesystemLib",
@@ -328,6 +338,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CapgoCapacitorDocumentScanner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CordovaPlugins.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IONCameraLib.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JcesarmobileCapacitorOcr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLCipher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZIPFoundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IONFilesystemLib.framework",
@@ -581,8 +592,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.netgrade.app.ExamsWidget;
-				PROVISIONING_PROFILE_SPECIFIER = "netgrade-widget-provisioning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "netgrade-widget-provisioning";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -626,8 +637,8 @@
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.netgrade.app.ExamsWidget;
-				PROVISIONING_PROFILE_SPECIFIER = "netgrade-widget-provisioning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "netgrade-widget-provisioning";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

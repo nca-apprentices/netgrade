@@ -34,3 +34,12 @@ project(':capacitor-share').projectDir = new File('../node_modules/@capacitor/sh
 
 include ':capacitor-status-bar'
 project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
+
+include ':capgo-capacitor-document-scanner'
+project(':capgo-capacitor-document-scanner').projectDir = new File('../node_modules/@capgo/capacitor-document-scanner/android')
+
+include ':jcesarmobile-capacitor-ocr'
+project(':jcesarmobile-capacitor-ocr').projectDir = new File('../node_modules/@jcesarmobile/capacitor-ocr/android')
+
+include ':capacitor-widget-bridge'
+project(':capacitor-widget-bridge').projectDir = new File('../node_modules/capacitor-widget-bridge/android')
