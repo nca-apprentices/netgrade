@@ -34,10 +34,10 @@ const Header: React.FC<HeaderProps> = ({
             {onBack ? (
               <IonButton onClick={onBack} fill="clear">
                 <IonIcon icon={chevronBack} slot="start" />
-                Back
+                Zurück
               </IonButton>
             ) : (
-              <IonBackButton defaultHref={defaultHref} text="Back" />
+              <IonBackButton defaultHref={defaultHref} text="Zurück" />
             )}
           </IonButtons>
         )}
