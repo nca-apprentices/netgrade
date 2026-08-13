@@ -90,7 +90,7 @@ export const GradeForm: React.FC<GradeFormProps> = ({
                 <div className={styles.rangeContainer}>
                   <IonRange
                     value={formValues.score}
-                    onIonChange={(e) =>
+                    onIonInput={(e) =>
                       onFieldChange('score', e.detail.value as number)
                     }
                     min={1}
@@ -134,7 +134,7 @@ export const GradeForm: React.FC<GradeFormProps> = ({
                 <div className={styles.rangeContainer}>
                   <IonRange
                     value={formValues.weight}
-                    onIonChange={(e) =>
+                    onIonInput={(e) =>
                       onFieldChange('weight', e.detail.value as number)
                     }
                     min={0}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonAlert,
   IonBackButton,
@@ -33,7 +33,7 @@ import {
   trashOutline,
   trophyOutline,
 } from 'ionicons/icons';
-import { useForm } from '@tanstack/react-form';
+import { useForm, useSelector } from '@tanstack/react-form';
 import {
   useAddGradeWithExam,
   useAddExamScans,
@@ -114,7 +114,18 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
     },
   });
 
-  const gradeFormValues = gradeForm.state.values as GradeFormData;
+  useEffect(() => {
+    if (!exam?.grade) return;
+
+    gradeForm.setFieldValue('score', exam.grade.score);
+    gradeForm.setFieldValue('weight', exam.grade.weight * 100);
+    gradeForm.setFieldValue('comment', exam.grade.comment ?? '');
+  }, [exam]);
+
+  const gradeFormValues = useSelector(
+    gradeForm.store,
+    (state) => state.values,
+  ) as GradeFormData;
 
   const addGradeWithExamMutation = useAddGradeWithExam();
   const addExamScansMutation = useAddExamScans();
@@ -308,10 +319,10 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
             )
           ) : (
             <GradeForm
-              formValues={gradeForm.state.values as GradeFormData}
-              onFieldChange={(field, value) =>
-                gradeForm.setFieldValue(field as keyof GradeFormData, value)
-              }
+              formValues={gradeFormValues}
+              onFieldChange={(field, value) => {
+                gradeForm.setFieldValue(field as keyof GradeFormData, value);
+              }}
               getGradeColor={getGradeColor}
               onSubmit={gradeForm.handleSubmit}
               onTakePhoto={handleTakePhoto}
