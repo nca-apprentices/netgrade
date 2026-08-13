@@ -60,7 +60,7 @@ import UnsavedChangesAlert from '@/shared/components/form-layout/unsaved-changes
 import styles from './styles/edit-exam-page.module.css';
 import { Layout } from '@/components/Layout/Layout';
 import { GradeFormData } from './types';
-import { formatDate, getGradeColor } from './utils';
+import { formatDate, getGradeBadgeColor, getGradeColor } from './utils';
 import { EditExamForm } from './edit-exam-form';
 import { GradeForm } from './grade-form';
 
@@ -220,7 +220,7 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton defaultHref={Routes.HOME} text="Back" />
+              <IonBackButton defaultHref={Routes.HOME} text="Zurück" />
             </IonButtons>
             <IonTitle>Fehler</IonTitle>
           </IonToolbar>
@@ -369,7 +369,7 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
               <div className={`${styles.gradeCard} ${styles.animateIn}`}>
                 <div className={styles.gradeDisplay}>
                   <div
-                    className={`${styles.gradeCircle} ${styles[getGradeColor(gradeFormValues.score)]}`}
+                    className={`${styles.gradeCircle} ${styles[getGradeBadgeColor(gradeFormValues.score)]}`}
                   >
                     <span className={styles.gradeValue}>
                       {gradeFormValues.score.toFixed(1)}
