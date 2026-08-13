@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonAlert,
   IonBackButton,
@@ -113,6 +113,14 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
       setShowGradeConfirmModal(true);
     },
   });
+
+  useEffect(() => {
+    if (!exam?.grade) return;
+
+    gradeForm.setFieldValue('score', exam.grade.score);
+    gradeForm.setFieldValue('weight', exam.grade.weight * 100);
+    gradeForm.setFieldValue('comment', exam.grade.comment ?? "");
+  }, [exam, gradeForm]);
 
   const gradeFormValues = gradeForm.state.values as GradeFormData;
 

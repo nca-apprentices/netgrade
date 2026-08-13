@@ -120,7 +120,10 @@ export class ExamService {
       const { exam: examRepo } = getRepositories();
       return await examRepo.findOne({
         where: { id },
-        relations: { scans: true },
+        relations: {
+          scans: true,
+          grade: true,
+        },
         order: { scans: { createdAt: 'ASC' } },
       });
     } catch (error) {
