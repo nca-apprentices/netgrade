@@ -1,17 +1,17 @@
 PODS:
-  - Capacitor (8.4.2):
+  - Capacitor (8.4.1):
     - CapacitorCordova
-  - CapacitorApp (8.1.1):
+  - CapacitorApp (8.1.0):
     - Capacitor
-  - CapacitorCamera (8.2.1):
+  - CapacitorCamera (8.2.0):
     - Capacitor
     - IONCameraLib (~> 1.0.4)
   - CapacitorCommunitySqlite (8.1.0):
     - Capacitor
     - SQLCipher
     - ZIPFoundation
-  - CapacitorCordova (8.4.2)
-  - CapacitorDevice (8.0.3):
+  - CapacitorCordova (8.4.1)
+  - CapacitorDevice (8.0.2):
     - Capacitor
   - CapacitorFilesystem (8.1.2):
     - Capacitor
@@ -20,22 +20,22 @@ PODS:
     - Capacitor
   - CapacitorKeyboard (8.0.5):
     - Capacitor
-  - CapacitorLocalNotifications (8.2.1):
+  - CapacitorLocalNotifications (8.2.0):
     - Capacitor
   - CapacitorPreferences (8.0.1):
     - Capacitor
   - CapacitorShare (8.0.1):
     - Capacitor
-  - CapacitorStatusBar (8.0.3):
+  - CapacitorStatusBar (8.0.2):
     - Capacitor
   - CapacitorWidgetBridge (8.1.0):
     - Capacitor
-  - CapgoCapacitorDocumentScanner (8.4.0):
+  - CapgoCapacitorDocumentScanner (8.3.33):
     - Capacitor
-  - CordovaPlugins (8.4.2):
+  - CordovaPlugins (8.4.1):
     - CapacitorCordova
-  - IONCameraLib (1.0.5)
-  - IONFilesystemLib (1.1.2)
+  - IONCameraLib (1.0.4)
+  - IONFilesystemLib (1.1.1)
   - JcesarmobileCapacitorOcr (0.3.0):
     - Capacitor
   - SQLCipher (4.10.0):
@@ -108,28 +108,28 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@jcesarmobile/capacitor-ocr"
 
 SPEC CHECKSUMS:
-  Capacitor: 52f999235b8bd6a7d01694753f4f4d54d182e3a3
-  CapacitorApp: 305bd13c44f6f9d164e2ee66a4faa956ed8c0e06
-  CapacitorCamera: 1b9dde3aaffbd1f051486f4cee2b4cdd962662ae
+  Capacitor: 35242afe195b1e53c58ca1b827d1b444c5e6602b
+  CapacitorApp: 449ffe26375e96f8aaaee625ac6e01e5c57c8650
+  CapacitorCamera: 8f6acf83664118321111e76acef86390211ccb08
   CapacitorCommunitySqlite: eac6acfb852f46e7988fc59604d7f900498d354e
-  CapacitorCordova: 345eacdc4c8282415446aea4acd8c77d82480bd4
-  CapacitorDevice: 708e742b60a61572cd593e44c809592e8f31da14
+  CapacitorCordova: eebe6bcf807b1b06f3f48237650f96bbcd0eef09
+  CapacitorDevice: 14cba6f88d1c3074cbf825fea977c8c526453ff8
   CapacitorFilesystem: 2db285a1ac6e475cc27cae2e1bea999000f9e2be
   CapacitorHaptics: 296f771ecd89c7a1bd92a7b6826a7d268e2e70f5
   CapacitorKeyboard: b6b0744890cdb1d9a96e2cafcc9253fdcc55de3b
-  CapacitorLocalNotifications: 908a69a3cf7ae345426de3223d4980befb0103c6
+  CapacitorLocalNotifications: 2615aa008f608b95d3921a778ee1988abf1e6148
   CapacitorPreferences: cca2021f386efb75947c850334447d9ff22b14f1
   CapacitorShare: 0c58305114538568059bfc07111f22dcb9cb2a82
-  CapacitorStatusBar: eca7bc2b58d9f886f1ef9edb66e57a9b29c121af
+  CapacitorStatusBar: 01d5763b4ed720de5ce2edbc938de6a98f4c8f32
   CapacitorWidgetBridge: fb5430e41bd19671fa882fbbb532cb74cc664fef
-  CapgoCapacitorDocumentScanner: 7ad9e8ed9c054d551bfc948660d995b9545723d8
-  CordovaPlugins: 07bdf7900a53d62cc1d40954487e31a09e0911ff
-  IONCameraLib: ecbd8ef0077d481df429cee267bbeb1a7b9bddd0
-  IONFilesystemLib: 21a63377696b2d8fab5632ecfb7d2ac67bddb68a
+  CapgoCapacitorDocumentScanner: a5027b3542e5c1fb5f2caddfc64793a42fd61fc3
+  CordovaPlugins: d98a92382a894fb42283a967119a2ee1fbdcdf16
+  IONCameraLib: f2349804460bd9e3f892e42109b8d996ab3fa19d
+  IONFilesystemLib: dfa8706539ac9ab77ccfd6e5b3830ce9b5e57f6c
   JcesarmobileCapacitorOcr: d3668e104d7ad8968a9d00fd4766e18fea0fe305
   SQLCipher: eb79c64049cb002b4e9fcb30edb7979bf4706dfc
   ZIPFoundation: dfd3d681c4053ff7e2f7350bc4e53b5dba3f5351
 
-PODFILE CHECKSUM: 197aea5c71f63b14a0ab5a15b29ce5832153b922
+PODFILE CHECKSUM: 316b96809e851236059249bf470f10f450b50ddd
 
 COCOAPODS: 1.16.2
