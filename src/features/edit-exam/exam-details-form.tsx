@@ -119,7 +119,7 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
 
     gradeForm.setFieldValue('score', exam.grade.score);
     gradeForm.setFieldValue('weight', exam.grade.weight * 100);
-    gradeForm.setFieldValue('comment', exam.grade.comment ?? "");
+    gradeForm.setFieldValue('comment', exam.grade.comment ?? '');
   }, [exam, gradeForm]);
 
   const gradeFormValues = gradeForm.state.values as GradeFormData;
