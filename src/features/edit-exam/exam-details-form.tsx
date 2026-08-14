@@ -26,6 +26,7 @@ import {
   calendarOutline,
   chatbubbleOutline,
   checkmarkCircleOutline,
+  closeOutline,
   createOutline,
   documentTextOutline,
   scaleOutline,
@@ -331,13 +332,20 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
           <div className={styles.modalContent}>
             <div className={styles.modalHeader}>
               <IonButton
+                fill="clear"
+                slot="icon-only"
                 className={styles.closeButton}
                 onClick={() => setShowGradeConfirmModal(false)}
-              ></IonButton>
-              <h2 className={styles.modalTitle}>Note bestätigen</h2>
-              <p className={styles.modalSubtitle}>
-                Überprüfe deine Eingaben vor dem Speichern
-              </p>
+                aria-label="Zurück"
+              >
+                <IonIcon icon={closeOutline} className={styles.closeIcon} />
+              </IonButton>
+              <div className={styles.modalTitleContainer}>
+                <h2 className={styles.modalTitle}>Note bestätigen</h2>
+                <p className={styles.modalSubtitle}>
+                  Überprüfe deine Eingaben vor dem Speichern
+                </p>
+              </div>
             </div>
             <div className={styles.contentContainer}>
               <div className={`${styles.gradeCard} ${styles.animateIn}`}>
@@ -382,7 +390,7 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
                       <span className={styles.infoLabel}>Kommentar</span>
                     </div>
                     <p className={styles.commentText}>
-                      &#34;{gradeFormValues.comment}&#34;
+                      {gradeFormValues.comment}
                     </p>
                   </div>
                 )}
