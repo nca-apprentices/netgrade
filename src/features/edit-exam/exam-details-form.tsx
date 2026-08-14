@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   IonAlert,
   IonBackButton,
@@ -33,7 +33,7 @@ import {
   trashOutline,
   trophyOutline,
 } from 'ionicons/icons';
-import { useForm } from '@tanstack/react-form';
+import { useForm, useSelector } from '@tanstack/react-form';
 import {
   useAddGradeWithExam,
   useAddExamScans,
@@ -46,6 +46,7 @@ import {
   usePhotoSrcs,
 } from '@/hooks';
 import {
+  decimalToPercentage,
   percentageToDecimal,
   validateGrade,
   validateWeight,
@@ -60,6 +61,7 @@ import { GradeFormData } from './types';
 import { formatDate, getGradeBadgeColor, getGradeColor } from './utils';
 import { EditExamForm } from './edit-exam-form';
 import { GradeForm } from './grade-form';
+import { Exam } from '@/db/entities';
 
 interface ExamDetailsFormProps {
   examId: string;
@@ -69,33 +71,22 @@ interface ExamDetailsFormProps {
   onError?: () => void;
 }
 
-const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
-  examId,
+const GradeTab = ({
+  exam,
+  showMessage,
   onGradeSuccess,
-  onDeleteSuccess,
-  onEditSuccess,
-  onError,
+}: {
+  exam: Exam;
+  showMessage: (message: string, color?: string) => void;
+  onGradeSuccess?: () => void;
 }) => {
-  const { data: exam, error } = useExam(examId);
-  const { data: subjects = [] } = useSubjects();
-
-  const [segmentValue, setSegmentValue] = useState<'details' | 'grade'>(
-    'details',
-  );
   const [showGradeConfirmModal, setShowGradeConfirmModal] = useState(false);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastColor, setToastColor] = useState('primary');
-  const [showToast, setShowToast] = useState(false);
-
-  const scans = exam?.scans ?? [];
-  const { data: photoSrcs = [] } = usePhotoSrcs(scans.map((s) => s.photoPath));
 
   const gradeForm = useForm({
     defaultValues: {
-      score: 5.5,
-      weight: 100,
-      comment: '',
+      score: exam?.grade?.score ?? 5.5,
+      weight: exam?.grade ? decimalToPercentage(exam?.grade?.weight) : 100,
+      comment: exam?.grade?.comment ?? '',
     } as GradeFormData,
     onSubmit: async ({ value }) => {
       const gradeError = validateGrade(value.score);
@@ -114,42 +105,33 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
     },
   });
 
-  useEffect(() => {
-    if (!exam?.grade) return;
-
-    gradeForm.setFieldValue('score', exam.grade.score);
-    gradeForm.setFieldValue('weight', exam.grade.weight * 100);
-    gradeForm.setFieldValue('comment', exam.grade.comment ?? '');
-  }, [exam, gradeForm]);
-
-  const gradeFormValues = gradeForm.state.values as GradeFormData;
-
+  const gradeFormValues = useSelector(
+    gradeForm.store,
+    (state) => state.values,
+  ) as GradeFormData;
   const addGradeWithExamMutation = useAddGradeWithExam();
+
   const addExamScansMutation = useAddExamScans();
   const deleteExamScanMutation = useDeleteExamScan();
-  const deleteExamMutation = useDeleteExam();
   const takePhotoMutation = useTakeExamPhoto();
   const extractNoteMutation = useExtractNoteFromScan();
 
-  const showMessage = (message: string, color: string = 'primary') => {
-    setToastMessage(message);
-    setToastColor(color);
-    setShowToast(true);
-  };
-
-  const handleDeletePhoto = (scanId: string) =>
-    deleteExamScanMutation.mutate(scanId);
+  const scans = exam.scans ?? [];
+  const { data: photoSrcs = [] } = usePhotoSrcs(
+    scans.map((scan) => scan.photoPath),
+  );
 
   const handleTakePhoto = async () => {
-    if (!exam) return;
     try {
       const paths = await takePhotoMutation.mutateAsync();
+
       await addExamScansMutation.mutateAsync({
         examId: exam.id,
         photoPaths: paths,
       });
 
       const note = await extractNoteMutation.mutateAsync(paths[0]);
+
       if (note != null) {
         gradeForm.setFieldValue('score', note);
         showMessage(
@@ -161,6 +143,9 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
       showMessage(`Fehler: ${(err as Error).message}`, 'danger');
     }
   };
+
+  const handleDeletePhoto = (scanId: string) =>
+    deleteExamScanMutation.mutate(scanId);
 
   const handleAddGrade = () => {
     if (!exam) return;
@@ -189,6 +174,135 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
         );
       },
     });
+  };
+
+  return (
+    <>
+      <GradeForm
+        formValues={gradeFormValues}
+        onFieldChange={(field, value) =>
+          gradeForm.setFieldValue(field as keyof GradeFormData, value)
+        }
+        getGradeColor={getGradeColor}
+        onSubmit={gradeForm.handleSubmit}
+        onTakePhoto={handleTakePhoto}
+        onDeletePhoto={handleDeletePhoto}
+        isTakingPhoto={takePhotoMutation.isPending}
+        scans={scans}
+        photoSrcs={photoSrcs}
+      />
+
+      <IonModal
+        isOpen={showGradeConfirmModal}
+        onDidDismiss={() => setShowGradeConfirmModal(false)}
+        className={styles.modal}
+      >
+        <div className={styles.modalContent}>
+          <div className={styles.modalHeader}>
+            <IonButton
+              className={styles.closeButton}
+              onClick={() => setShowGradeConfirmModal(false)}
+            ></IonButton>
+            <h2 className={styles.modalTitle}>Note bestätigen</h2>
+            <p className={styles.modalSubtitle}>
+              Überprüfe deine Eingaben vor dem Speichern
+            </p>
+          </div>
+          <div className={styles.contentContainer}>
+            <div className={`${styles.gradeCard} ${styles.animateIn}`}>
+              <div className={styles.gradeDisplay}>
+                <div
+                  className={`${styles.gradeCircle} ${styles[getGradeBadgeColor(gradeFormValues.score)]}`}
+                >
+                  <span className={styles.gradeValue}>
+                    {gradeFormValues.score.toFixed(1)}
+                  </span>
+                </div>
+              </div>
+              <p className={styles.gradeLabel}>Deine Note</p>
+            </div>
+            <div className={styles.infoGrid}>
+              <div className={styles.infoCard}>
+                <div className={styles.infoCardHeader}>
+                  <div className={styles.infoIcon}>
+                    <IonIcon icon={documentTextOutline} />
+                  </div>
+                  <span className={styles.infoLabel}>Prüfung</span>
+                </div>
+                <div className={styles.infoValue}>{exam?.name}</div>
+              </div>
+              <div className={styles.infoCard}>
+                <div className={styles.infoCardHeader}>
+                  <div className={styles.infoIcon}>
+                    <IonIcon icon={scaleOutline} />
+                  </div>
+                  <span className={styles.infoLabel}>Gewichtung</span>
+                </div>
+                <div className={styles.infoValue}>
+                  {gradeFormValues.weight}%
+                </div>
+              </div>
+              {gradeFormValues.comment && (
+                <div className={`${styles.infoCard} ${styles.commentCard}`}>
+                  <div className={styles.infoCardHeader}>
+                    <div className={styles.infoIcon}>
+                      <IonIcon icon={chatbubbleOutline} />
+                    </div>
+                    <span className={styles.infoLabel}>Kommentar</span>
+                  </div>
+                  <p className={styles.commentText}>
+                    &#34;{gradeFormValues.comment}&#34;
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.actionContainer}>
+            <ModalButtonGroup>
+              <ModalCancelButton
+                onClick={() => setShowGradeConfirmModal(false)}
+                text="Abbrechen"
+              />
+              <ModalSubmitButton
+                onClick={handleAddGrade}
+                disabled={addGradeWithExamMutation.isPending}
+                isLoading={addGradeWithExamMutation.isPending}
+                loadingText="Wird gespeichert..."
+                text="Speichern"
+                icon={checkmarkCircleOutline}
+              />
+            </ModalButtonGroup>
+          </div>
+        </div>
+      </IonModal>
+    </>
+  );
+};
+
+const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
+  examId,
+  onGradeSuccess,
+  onDeleteSuccess,
+  onEditSuccess,
+  onError,
+}) => {
+  const { data: exam, error } = useExam(examId);
+  const { data: subjects = [] } = useSubjects();
+  const deleteExamMutation = useDeleteExam();
+
+  const [segmentValue, setSegmentValue] = useState<'details' | 'grade'>(
+    'details',
+  );
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastColor, setToastColor] = useState('primary');
+  const [showToast, setShowToast] = useState(false);
+
+  const showMessage = (message: string, color: string = 'primary') => {
+    setToastMessage(message);
+    setToastColor(color);
+    setShowToast(true);
   };
 
   const handleDelete = () => {
@@ -306,115 +420,28 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
             </IonSegmentButton>
           </IonSegment>
 
-          {segmentValue === 'details' ? (
-            exam ? (
-              <EditExamForm exam={exam} onSuccess={onEditSuccess} />
-            ) : (
-              <div className="ion-padding ion-text-center">
-                <IonSpinner />
+          {exam ? (
+            <>
+              <div
+                style={{ display: segmentValue === 'grade' ? 'block' : 'none' }}
+              >
+                <GradeTab
+                  exam={exam}
+                  showMessage={showMessage}
+                  onGradeSuccess={onGradeSuccess}
+                />
               </div>
-            )
+
+              {segmentValue === 'details' && (
+                <EditExamForm exam={exam} onSuccess={onEditSuccess} />
+              )}
+            </>
           ) : (
-            <GradeForm
-              formValues={gradeForm.state.values as GradeFormData}
-              onFieldChange={(field, value) =>
-                gradeForm.setFieldValue(field as keyof GradeFormData, value)
-              }
-              getGradeColor={getGradeColor}
-              onSubmit={gradeForm.handleSubmit}
-              onTakePhoto={handleTakePhoto}
-              onDeletePhoto={handleDeletePhoto}
-              isTakingPhoto={takePhotoMutation.isPending}
-              scans={scans}
-              photoSrcs={photoSrcs}
-            />
+            <div className="ion-padding ion-text-center">
+              <IonSpinner />
+            </div>
           )}
         </div>
-
-        <IonModal
-          isOpen={showGradeConfirmModal}
-          onDidDismiss={() => setShowGradeConfirmModal(false)}
-          className={styles.modal}
-        >
-          <div className={styles.modalContent}>
-            <div className={styles.modalHeader}>
-              <IonButton
-                className={styles.closeButton}
-                onClick={() => setShowGradeConfirmModal(false)}
-              ></IonButton>
-              <h2 className={styles.modalTitle}>Note bestätigen</h2>
-              <p className={styles.modalSubtitle}>
-                Überprüfe deine Eingaben vor dem Speichern
-              </p>
-            </div>
-            <div className={styles.contentContainer}>
-              <div className={`${styles.gradeCard} ${styles.animateIn}`}>
-                <div className={styles.gradeDisplay}>
-                  <div
-                    className={`${styles.gradeCircle} ${styles[getGradeBadgeColor(gradeFormValues.score)]}`}
-                  >
-                    <span className={styles.gradeValue}>
-                      {gradeFormValues.score.toFixed(1)}
-                    </span>
-                  </div>
-                </div>
-                <p className={styles.gradeLabel}>Deine Note</p>
-              </div>
-              <div className={styles.infoGrid}>
-                <div className={styles.infoCard}>
-                  <div className={styles.infoCardHeader}>
-                    <div className={styles.infoIcon}>
-                      <IonIcon icon={documentTextOutline} />
-                    </div>
-                    <span className={styles.infoLabel}>Prüfung</span>
-                  </div>
-                  <div className={styles.infoValue}>{exam?.name}</div>
-                </div>
-                <div className={styles.infoCard}>
-                  <div className={styles.infoCardHeader}>
-                    <div className={styles.infoIcon}>
-                      <IonIcon icon={scaleOutline} />
-                    </div>
-                    <span className={styles.infoLabel}>Gewichtung</span>
-                  </div>
-                  <div className={styles.infoValue}>
-                    {gradeFormValues.weight}%
-                  </div>
-                </div>
-                {gradeFormValues.comment && (
-                  <div className={`${styles.infoCard} ${styles.commentCard}`}>
-                    <div className={styles.infoCardHeader}>
-                      <div className={styles.infoIcon}>
-                        <IonIcon icon={chatbubbleOutline} />
-                      </div>
-                      <span className={styles.infoLabel}>Kommentar</span>
-                    </div>
-                    <p className={styles.commentText}>
-                      &#34;{gradeFormValues.comment}&#34;
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className={styles.actionContainer}>
-              <ModalButtonGroup>
-                <ModalCancelButton
-                  onClick={() => setShowGradeConfirmModal(false)}
-                  text="Abbrechen"
-                />
-                <ModalSubmitButton
-                  onClick={handleAddGrade}
-                  disabled={addGradeWithExamMutation.isPending}
-                  isLoading={addGradeWithExamMutation.isPending}
-                  loadingText="Wird gespeichert..."
-                  text="Speichern"
-                  icon={checkmarkCircleOutline}
-                />
-              </ModalButtonGroup>
-            </div>
-          </div>
-        </IonModal>
 
         <IonAlert
           isOpen={showDeleteAlert}
