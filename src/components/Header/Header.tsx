@@ -32,12 +32,25 @@ const Header: React.FC<HeaderProps> = ({
         {backButton && (
           <IonButtons slot="start">
             {onBack ? (
-              <IonButton onClick={onBack} fill="clear">
-                <IonIcon icon={chevronBack} slot="start" />
+              <IonButton
+                onClick={onBack}
+                fill="clear"
+                className="header-back-button"
+              >
+                <IonIcon
+                  icon={chevronBack}
+                  slot="start"
+                  className="header-back-icon"
+                />
                 Zurück
               </IonButton>
             ) : (
-              <IonBackButton defaultHref={defaultHref} text="Zurück" />
+              <IonBackButton
+                defaultHref={defaultHref}
+                text="Zurück"
+                icon={chevronBack}
+                className="header-back-button"
+              />
             )}
           </IonButtons>
         )}
