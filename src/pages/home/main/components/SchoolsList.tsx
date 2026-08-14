@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { IonIcon } from '@ionic/react';
+import { IonIcon, IonSkeletonText } from '@ionic/react';
 import {
   school,
   chevronForwardOutline,
@@ -10,15 +10,37 @@ import { Routes } from '@/routes';
 import { useSchools } from '@/hooks/queries';
 import { SchoolService } from '@/services/SchoolService';
 
+const SKELETON_CARDS = [0, 1, 2];
+
 const SchoolsList: React.FC = () => {
   const history = useHistory();
-  const { data: schools } = useSchools();
+  const { data: schools, isLoading } = useSchools();
 
   const getSchoolIcon = (schoolName: string) => {
     return schoolName.charAt(0).toUpperCase();
   };
 
-  if (schools!.length === 0) {
+  if (isLoading) {
+    return (
+      <div className="schools-grid">
+        {SKELETON_CARDS.map((index) => (
+          <div key={index} className="school-card glass-card school-skeleton">
+            <div className="school-card-header">
+              <IonSkeletonText animated className="school-skeleton-avatar" />
+            </div>
+            <div className="school-card-content">
+              <IonSkeletonText animated className="school-skeleton-name" />
+              <IonSkeletonText animated className="school-skeleton-stats" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const schoolList = schools ?? [];
+
+  if (schoolList.length === 0) {
     return (
       <div className="schools-grid">
         <div className="empty-schools glass-card">
@@ -34,7 +56,7 @@ const SchoolsList: React.FC = () => {
 
   return (
     <div className="schools-grid">
-      {schools!.map((school, index) => {
+      {schoolList.map((school, index) => {
         const average = SchoolService.calculateSchoolAverage(school);
         return (
           <div

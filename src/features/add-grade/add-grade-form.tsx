@@ -15,6 +15,7 @@ import BottomNavigation from '@/components/bottom-navigation/bottom-navigation';
 import SubmitButton from '@/shared/components/buttons/submitt-button/submit-button';
 import FormContainer from '@/shared/components/form-layout/form-container';
 import SuccessOverlay from '@/shared/components/form-layout/succes-overlay';
+import UnsavedChangesAlert from '@/shared/components/form-layout/unsaved-changes-alert';
 import { Routes } from '@/routes';
 import {
   gradeFormSchema,
@@ -32,6 +33,9 @@ const AddGradeForm: React.FC<AddGradeFormProps> = ({ onSuccess }) => {
   const [toastColor, setToastColor] = useState<'success' | 'danger'>('danger');
   const [showNavigationModal, setShowNavigationModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
+
+  const goHome = () => history.replace(Routes.HOME);
 
   const { data: schools = [], error: schoolsError } = useSchools();
   const [selectedSchoolId, setSelectedSchoolId] = useState('');
@@ -90,6 +94,11 @@ const AddGradeForm: React.FC<AddGradeFormProps> = ({ onSuccess }) => {
     },
   });
 
+  // Read on click rather than via a subscription: the input only commits on
+  // blur, so a rendered flag would still be stale when the button fires.
+  const handleBack = () =>
+    form.state.isDirty ? setShowUnsavedAlert(true) : goHome();
+
   if (schoolsError && !showToast) {
     setToastMessage('Fehler beim Laden der Schulen');
     setToastColor('danger');
@@ -108,11 +117,7 @@ const AddGradeForm: React.FC<AddGradeFormProps> = ({ onSuccess }) => {
 
   return (
     <>
-      <Header
-        title="Note hinzufügen"
-        backButton
-        onBack={() => history.replace(Routes.HOME)}
-      />
+      <Header title="Note hinzufügen" backButton onBack={handleBack} />
 
       <IonContent className="add-exam-content" scrollY>
         <SuccessOverlay
@@ -177,6 +182,12 @@ const AddGradeForm: React.FC<AddGradeFormProps> = ({ onSuccess }) => {
         <NavigationModal
           isOpen={showNavigationModal}
           setIsOpen={setShowNavigationModal}
+        />
+
+        <UnsavedChangesAlert
+          isOpen={showUnsavedAlert}
+          onDismiss={() => setShowUnsavedAlert(false)}
+          onDiscard={goHome}
         />
 
         <IonToast
