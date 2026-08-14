@@ -23,6 +23,7 @@ import Header from '@/components/Header/Header';
 import SubmitButton from '@/shared/components/buttons/submitt-button/submit-button';
 import FormContainer from '@/shared/components/form-layout/form-container';
 import SuccessOverlay from '@/shared/components/form-layout/succes-overlay';
+import UnsavedChangesAlert from '@/shared/components/form-layout/unsaved-changes-alert';
 import { Routes } from '@/routes';
 import { percentageToDecimal } from '@/utils/validation';
 import {
@@ -37,6 +38,7 @@ const ScanExamForm: React.FC = () => {
 
   const [photoPaths, setPhotoPaths] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
   const [toast, setToast] = useState<{ msg: string; color: string } | null>(
     null,
   );
@@ -91,6 +93,15 @@ const ScanExamForm: React.FC = () => {
     },
   });
 
+  // Scanned pages are only persisted on submit, so they count as unsaved work
+  // even when the OCR could not fill in any field. The dirty flag is read on
+  // click rather than via a subscription: the inputs only commit on blur, so a
+  // rendered flag would still be stale when the button fires.
+  const handleBack = () =>
+    form.state.isDirty || photoPaths.length > 0
+      ? setShowUnsavedAlert(true)
+      : goHome();
+
   const handleScan = async (auto = false) => {
     let paths: string[];
     try {
@@ -126,7 +137,7 @@ const ScanExamForm: React.FC = () => {
 
   return (
     <>
-      <Header title="Prüfung scannen" backButton onBack={goHome} />
+      <Header title="Prüfung scannen" backButton onBack={handleBack} />
 
       <IonContent className="scan-exam-content" scrollY>
         <SuccessOverlay
@@ -213,6 +224,12 @@ const ScanExamForm: React.FC = () => {
           isLoading={addGradeWithExamMutation.isPending}
           loadingText="Wird gespeichert..."
           text="Prüfung speichern"
+        />
+
+        <UnsavedChangesAlert
+          isOpen={showUnsavedAlert}
+          onDismiss={() => setShowUnsavedAlert(false)}
+          onDiscard={goHome}
         />
 
         <IonToast
