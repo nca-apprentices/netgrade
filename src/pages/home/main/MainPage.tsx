@@ -6,9 +6,17 @@ import {
   IonRefresher,
   IonRefresherContent,
   useIonRouter,
+  type RefresherEventDetail,
 } from '@ionic/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { add, chevronForward, personCircleOutline } from 'ionicons/icons';
-import { useAddSchool, useUserName } from '@/hooks/queries';
+import {
+  examKeys,
+  gradeKeys,
+  schoolKeys,
+  useAddSchool,
+  useUserName,
+} from '@/hooks/queries';
 import { Routes } from '@/routes';
 import NavigationModal from '@/components/navigation/home/NavigationModal';
 import AddSchoolModal from '@/components/modals/AddSchoolModal';
@@ -22,10 +30,23 @@ function MainPage() {
   const [showNavigationModal, setShowNavigationModal] = useState(false);
   const [showAddSchoolModal, setShowAddSchoolModal] = useState(false);
   const router = useIonRouter();
+  const queryClient = useQueryClient();
 
   const { data: userName } = useUserName();
 
   const addSchoolMutation = useAddSchool();
+
+  const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
+    try {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: schoolKeys.all }),
+        queryClient.invalidateQueries({ queryKey: examKeys.all }),
+        queryClient.invalidateQueries({ queryKey: gradeKeys.all }),
+      ]);
+    } finally {
+      event.detail.complete();
+    }
+  };
 
   const handleAddSchool = (schoolName: string) => {
     if (schoolName.trim()) {
@@ -45,13 +66,8 @@ function MainPage() {
 
   return (
     <IonPage className="home-page">
-      <IonContent
-        className="home-content"
-        scrollY={false}
-        scrollEvents={false}
-        forceOverscroll={false}
-      >
-        <IonRefresher slot="fixed">
+      <IonContent className="home-content" scrollY forceOverscroll>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent />
         </IonRefresher>
         <div className="content-wrapper">
