@@ -19,9 +19,15 @@ import { Exam } from '@/db/entities/Exam';
 interface EditExamFormProps {
   exam: Exam;
   onSuccess?: () => void;
+  /** Lets the parent's back button check for unsaved edits at click time. */
+  registerDirtyCheck?: (isDirty: () => boolean) => void;
 }
 
-export function EditExamForm({ exam, onSuccess }: EditExamFormProps) {
+export function EditExamForm({
+  exam,
+  onSuccess,
+  registerDirtyCheck,
+}: EditExamFormProps) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastColor, setToastColor] = useState<'success' | 'danger'>('danger');
@@ -30,11 +36,13 @@ export function EditExamForm({ exam, onSuccess }: EditExamFormProps) {
   const updateExamMutation = useUpdateExam();
 
   const form = useAppForm({
+    // Seeded from the exam so that "dirty" means the user changed something,
+    // rather than the form being populated after mount.
     defaultValues: {
-      title: '',
-      date: '',
-      subject: '',
-      description: '',
+      title: exam.name,
+      date: exam.date.toISOString().split('T')[0],
+      subject: exam.subjectId,
+      description: exam.description || '',
     } as EditExamFormData,
     validators: {
       onSubmit: editExamSchema,
@@ -66,14 +74,13 @@ export function EditExamForm({ exam, onSuccess }: EditExamFormProps) {
     },
   });
 
+  // The back button lives in the parent, so hand it a getter it can call when
+  // clicked. Switching to the grade tab unmounts us and drops the edits, so the
+  // check has to report "clean" again on the way out.
   useEffect(() => {
-    if (exam) {
-      form.setFieldValue('title', exam.name);
-      form.setFieldValue('date', exam.date.toISOString().split('T')[0]);
-      form.setFieldValue('subject', exam.subjectId);
-      form.setFieldValue('description', exam.description || '');
-    }
-  }, [exam, form]);
+    registerDirtyCheck?.(() => form.state.isDirty);
+    return () => registerDirtyCheck?.(() => false);
+  }, [form, registerDirtyCheck]);
 
   const handleSubmit = () => {
     form.handleSubmit();
