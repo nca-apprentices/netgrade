@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   IonAlert,
   IonBackButton,
@@ -36,7 +36,6 @@ import {
 } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { useForm } from '@tanstack/react-form';
-import { useForm, useSelector } from '@tanstack/react-form';
 import {
   useAddGradeWithExam,
   useAddExamScans,
@@ -79,31 +78,13 @@ const GradeTab = ({
   exam,
   showMessage,
   onGradeSuccess,
+  registerDirtyCheck,
 }: {
   exam: Exam;
   showMessage: (message: string, color?: string) => void;
   onGradeSuccess?: () => void;
+  registerDirtyCheck?: (isDirty: () => boolean) => void;
 }) => {
-  const history = useHistory();
-  const { data: exam, error } = useExam(examId);
-  const { data: subjects = [] } = useSubjects();
-
-  const [segmentValue, setSegmentValue] = useState<'details' | 'grade'>(
-    'details',
-  );
-  const [showGradeConfirmModal, setShowGradeConfirmModal] = useState(false);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
-  const isDetailsDirty = useRef<() => boolean>(() => false);
-  const registerDirtyCheck = useCallback((isDirty: () => boolean) => {
-    isDetailsDirty.current = isDirty;
-  }, []);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastColor, setToastColor] = useState('primary');
-  const [showToast, setShowToast] = useState(false);
-
-  const scans = exam?.scans ?? [];
-  const { data: photoSrcs = [] } = usePhotoSrcs(scans.map((s) => s.photoPath));
   const [showGradeConfirmModal, setShowGradeConfirmModal] = useState(false);
 
   const gradeForm = useForm({
@@ -131,18 +112,13 @@ const GradeTab = ({
 
   const gradeFormValues = gradeForm.state.values as GradeFormData;
 
-  const goBack = () => history.replace(Routes.HOME);
-
-  // Both tabs hold a form, so either one can have unsaved changes. Read them on
-  // click rather than via a subscription: the inputs only commit on blur, so a
-  // rendered flag would still be stale when the button fires.
-  const handleBack = () =>
-    isDetailsDirty.current() || gradeForm.state.isDirty
-      ? setShowUnsavedAlert(true)
-      : goBack();
+  // Hand the parent a live check so its back button can ask this tab whether it
+  // has unsaved input.
+  useEffect(() => {
+    registerDirtyCheck?.(() => gradeForm.state.isDirty);
+  }, [registerDirtyCheck, gradeForm]);
 
   const addGradeWithExamMutation = useAddGradeWithExam();
-
   const addExamScansMutation = useAddExamScans();
   const deleteExamScanMutation = useDeleteExamScan();
   const takePhotoMutation = useTakeExamPhoto();
@@ -319,6 +295,7 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
   onEditSuccess,
   onError,
 }) => {
+  const history = useHistory();
   const { data: exam, error } = useExam(examId);
   const { data: subjects = [] } = useSubjects();
   const deleteExamMutation = useDeleteExam();
@@ -327,9 +304,30 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
     'details',
   );
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showUnsavedAlert, setShowUnsavedAlert] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastColor, setToastColor] = useState('primary');
   const [showToast, setShowToast] = useState(false);
+
+  // Each tab holds its own form, so each registers a check the back button can
+  // ask. Read on click rather than via a subscription: the inputs only commit on
+  // blur, so a rendered flag would still be stale when the button fires.
+  const isDetailsDirty = useRef<() => boolean>(() => false);
+  const isGradeDirty = useRef<() => boolean>(() => false);
+
+  const registerDetailsDirtyCheck = useCallback((isDirty: () => boolean) => {
+    isDetailsDirty.current = isDirty;
+  }, []);
+  const registerGradeDirtyCheck = useCallback((isDirty: () => boolean) => {
+    isGradeDirty.current = isDirty;
+  }, []);
+
+  const goBack = () => history.replace(Routes.HOME);
+
+  const handleBack = () =>
+    isDetailsDirty.current() || isGradeDirty.current()
+      ? setShowUnsavedAlert(true)
+      : goBack();
 
   const showMessage = (message: string, color: string = 'primary') => {
     setToastMessage(message);
@@ -455,26 +453,23 @@ const ExamDetailsForm: React.FC<ExamDetailsFormProps> = ({
             </IonSegmentButton>
           </IonSegment>
 
-          {segmentValue === 'details' ? (
-            exam ? (
-              <EditExamForm
-                exam={exam}
-                onSuccess={onEditSuccess}
-                registerDirtyCheck={registerDirtyCheck}
-              />
-            ) : (
-              <div className="ion-padding ion-text-center">
-                <IonSpinner />
-              </div>
-
-              {segmentValue === 'details' && (
-                <EditExamForm exam={exam} onSuccess={onEditSuccess} />
-              )}
-            </>
-          ) : (
+          {!exam ? (
             <div className="ion-padding ion-text-center">
               <IonSpinner />
             </div>
+          ) : segmentValue === 'details' ? (
+            <EditExamForm
+              exam={exam}
+              onSuccess={onEditSuccess}
+              registerDirtyCheck={registerDetailsDirtyCheck}
+            />
+          ) : (
+            <GradeTab
+              exam={exam}
+              showMessage={showMessage}
+              onGradeSuccess={onGradeSuccess}
+              registerDirtyCheck={registerGradeDirtyCheck}
+            />
           )}
         </div>
 
