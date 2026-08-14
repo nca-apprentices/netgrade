@@ -14,3 +14,16 @@
   font-size: var(--font-size-medium);
   margin-top: var(--margin-small);
 }
+
+.header-back-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+.ionBackButton.header-back-button {
+  --icon-font-size: 22px;
+}
+
+.header-back-icon {
+  font-size: 22px;
+}
