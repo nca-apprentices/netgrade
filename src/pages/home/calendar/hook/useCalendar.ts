@@ -74,20 +74,6 @@ export const useCalendar = (exams: Exam[] = []) => {
     }));
   };
 
-  const getRelativeDate = (date: Date): string => {
-    if (isToday(date)) return 'Heute';
-
-    const daysDiff = Math.round(
-      (date.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    if (daysDiff === 1) return 'Morgen';
-    if (daysDiff === 2) return 'Übermorgen';
-    if (daysDiff > 2 && daysDiff < 7) return `In ${daysDiff} Tagen`;
-
-    return format(date, 'dd.MM.yyyy');
-  };
-
   return {
     currentMonth,
     selectedDate,
@@ -99,6 +85,5 @@ export const useCalendar = (exams: Exam[] = []) => {
     setSelectedDate,
     setViewMode,
     changeMonth,
-    getRelativeDate,
   };
 };

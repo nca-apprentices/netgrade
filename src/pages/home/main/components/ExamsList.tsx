@@ -5,26 +5,12 @@ import { IonIcon } from '@ionic/react';
 import { bookOutline, timeOutline } from 'ionicons/icons';
 import { Routes } from '@/routes';
 import { useUpcomingExams, createExamDetailQuery } from '@/hooks/queries';
+import { formatExamDate, formatExamDistance } from '@/utils/examDate';
 
 const ExamsList: React.FC = () => {
   const history = useHistory();
   const queryClient = useQueryClient();
   const { data: upcomingExams } = useUpcomingExams();
-
-  const formatDate = (date: Date) => {
-    const today = new Date();
-    const diffTime = date.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return 'Heute';
-    if (diffDays === 1) return 'Morgen';
-    if (diffDays > 1 && diffDays <= 7) return `In ${diffDays} Tagen`;
-
-    return date.toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: 'short',
-    });
-  };
 
   const handleExamClick = async (examId: string) => {
     await queryClient.prefetchQuery(createExamDetailQuery(examId));
@@ -65,7 +51,10 @@ const ExamsList: React.FC = () => {
                   <div className="exam-meta">
                     <div className="exam-date">
                       <IonIcon icon={timeOutline} className="meta-icon" />
-                      <span>{formatDate(exam.date)}</span>
+                      <span>{formatExamDate(exam.date)}</span>
+                      <span className="exam-date-relative">
+                        {formatExamDistance(exam.date)}
+                      </span>
                     </div>
                   </div>
                 </div>
