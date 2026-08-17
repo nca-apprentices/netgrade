@@ -209,14 +209,14 @@ const GradeTab = ({
         <div className={styles.modalContent}>
           <div className={styles.modalHeader}>
             <IonButton
-  fill="clear"
-  slot="icon-only"
-  className={styles.closeButton}
-  onClick={() => setShowGradeConfirmModal(false)}
-  aria-label="Zurück"
->
-  <IonIcon icon={closeOutline} className={styles.closeIcon} />
-</IonButton>
+              fill="clear"
+              slot="icon-only"
+              className={styles.closeButton}
+              onClick={() => setShowGradeConfirmModal(false)}
+              aria-label="Zurück"
+            >
+              <IonIcon icon={closeOutline} className={styles.closeIcon} />
+            </IonButton>
             <h2 className={styles.modalTitle}>Note bestätigen</h2>
             <p className={styles.modalSubtitle}>
               Überprüfe deine Eingaben vor dem Speichern
