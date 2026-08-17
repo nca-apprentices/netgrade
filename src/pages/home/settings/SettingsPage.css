@@ -181,6 +181,10 @@
   background: linear-gradient(135deg, #ff9500 0%, #ffb84d 100%);
 }
 
+.item-icon.github {
+  background: #000000;
+}
+
 .item-icon.empty {
   background: rgba(0, 0, 0, 0.1);
   color: rgba(0, 0, 0, 0.3);
