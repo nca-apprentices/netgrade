@@ -26,6 +26,7 @@ import {
   calendarOutline,
   chatbubbleOutline,
   checkmarkCircleOutline,
+  closeOutline,
   chevronBack,
   createOutline,
   documentTextOutline,
@@ -208,9 +209,14 @@ const GradeTab = ({
         <div className={styles.modalContent}>
           <div className={styles.modalHeader}>
             <IonButton
+              fill="clear"
+              slot="icon-only"
               className={styles.closeButton}
               onClick={() => setShowGradeConfirmModal(false)}
-            ></IonButton>
+              aria-label="Zurück"
+            >
+              <IonIcon icon={closeOutline} className={styles.closeIcon} />
+            </IonButton>
             <h2 className={styles.modalTitle}>Note bestätigen</h2>
             <p className={styles.modalSubtitle}>
               Überprüfe deine Eingaben vor dem Speichern
@@ -259,7 +265,7 @@ const GradeTab = ({
                     <span className={styles.infoLabel}>Kommentar</span>
                   </div>
                   <p className={styles.commentText}>
-                    &#34;{gradeFormValues.comment}&#34;
+                    {gradeFormValues.comment}
                   </p>
                 </div>
               )}

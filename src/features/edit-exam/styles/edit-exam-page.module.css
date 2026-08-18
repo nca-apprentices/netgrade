@@ -26,6 +26,7 @@
 .headerCard {
   margin-top: 10px;
 }
+
 .headerCardContent {
   padding: 14px 16px;
 }
@@ -41,12 +42,14 @@
 .headerCardSubtitle {
   color: rgb(0, 0, 0);
 }
+
 .headerCardInfo {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
   margin-top: 6px;
 }
+
 .headerCardInfoRow {
   display: inline-flex;
   align-items: center;
@@ -59,12 +62,14 @@
   height: 20px;
   border-radius: 8px;
 }
+
 .skeletonText {
   width: 90%;
   height: 14px;
   border-radius: 8px;
   margin-top: 10px;
 }
+
 .skeletonTextShort {
   width: 40%;
   height: 14px;
@@ -80,6 +85,7 @@
   color: #fff;
   font-weight: 700;
 }
+
 .errorCardText {
   color: rgba(255, 255, 255, 0.85);
 }
@@ -89,10 +95,12 @@
   margin-top: 8px;
   --background: transparent;
 }
+
 .segmentButton {
   --color-checked: #fff;
   --indicator-color: linear-gradient(135deg, #007aff 0%, #0051d5 100%);
 }
+
 .segmentLabel {
   display: flex;
   align-items: center;
@@ -106,6 +114,7 @@
   --backdrop-opacity: 0.6;
   --backdrop-color: #000;
 }
+
 .modalContent {
   background: linear-gradient(
     135deg,
@@ -127,16 +136,19 @@
 .modalHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 6px;
 }
+
 .closeButton {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  padding: 4px;
-  border-radius: 10px;
-  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --color: rgba(0, 0, 0, 0.8);
+  position: relative;
+  top: -2px;
 }
 
 .closeIcon {
@@ -145,18 +157,25 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
+.modalTitleContainer {
+  flex: 1;
+  text-align: center;
+  min-width: 0;
+  margin-right: 44px;
+}
+
 .modalTitle {
   font-size: 18px;
   font-weight: 800;
-  margin: 0;
   color: #000000;
+  margin-left: 6px;
+  white-space: nowrap;
 }
+
 .modalSubtitle {
-  margin: 2px 0 0 0;
+  margin: 0 0 0 6px;
   color: rgba(0, 0, 0, 0.6);
   font-size: 13px;
-  padding-left: 8px;
-  padding-top: 6px;
 }
 
 /* ===== Modal Content Elements ===== */
@@ -178,9 +197,11 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
+
 .animateIn {
   animation: fadeIn 0.24s ease-out both;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -197,6 +218,7 @@
   place-items: center;
   margin: 6px 0;
 }
+
 .gradeCircle {
   width: 88px;
   height: 88px;
@@ -207,9 +229,11 @@
   font-size: 28px;
   color: #fff;
 }
+
 .gradeValue {
   line-height: 1;
 }
+
 .gradeLabel {
   margin: 4px 0 8px;
   color: rgba(0, 0, 0, 0.7);
@@ -219,12 +243,15 @@
 .success {
   background: linear-gradient(135deg, #00c853, #009688);
 }
+
 .warning {
   background: linear-gradient(135deg, #ffb300, #ff6f00);
 }
+
 .danger {
   background: linear-gradient(135deg, #ff5252, #d50000);
 }
+
 .neutral {
   background: linear-gradient(135deg, #4f46e5, #0ea5e9);
 }
@@ -235,6 +262,7 @@
   grid-template-columns: 1fr;
   gap: 10px;
 }
+
 .infoCard {
   border-radius: 14px;
   background: linear-gradient(
@@ -245,12 +273,14 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 12px;
 }
+
 .infoCardHeader {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 6px;
 }
+
 .infoIcon {
   width: 28px;
   height: 28px;
@@ -258,17 +288,20 @@
   display: grid;
   place-items: center;
   background: linear-gradient(135deg, #007aff, #0051d5);
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.25);
+  color: #ffffff;
 }
+
 .infoLabel {
   font-size: 12px;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.6);
 }
+
 .infoValue {
   font-weight: 600;
   color: #000000;
 }
+
 .commentText {
   color: rgba(0, 0, 0, 0.85);
   margin: 0;
@@ -278,10 +311,12 @@
 .actionContainer {
   margin-top: 8px;
 }
+
 .buttonGroup {
   display: flex;
   gap: 10px;
 }
+
 .confirmButton,
 .cancelButton {
   height: 52px;
@@ -296,26 +331,31 @@
   cursor: pointer;
   border: 0;
 }
+
 .confirmButton {
   flex: 1;
   color: #fff;
   background: linear-gradient(135deg, #007aff 0%, #0051d5 100%);
   box-shadow: 0 4px 16px rgba(0, 122, 255, 0.35);
 }
+
 .confirmButton:disabled {
   opacity: 0.7;
   box-shadow: 0 4px 16px rgba(0, 122, 255, 0.2);
   cursor: not-allowed;
 }
+
 .cancelButton {
   flex: 1;
   color: #0051d5;
   background: rgba(255, 255, 255, 0.9);
 }
+
 .buttonIcon {
   width: 20px;
   height: 20px;
 }
+
 .spinner {
   width: 18px;
   height: 18px;
@@ -324,6 +364,7 @@
   border-top-color: #fff;
   animation: spin 0.9s linear infinite;
 }
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -345,12 +386,15 @@
   .headerCardTitle {
     color: #fff;
   }
+
   .headerCardSubtitle {
     color: rgba(255, 255, 255, 0.85);
   }
+
   .errorCardTitle {
     color: #fff;
   }
+
   .errorCardText {
     color: rgba(255, 255, 255, 0.85);
   }
@@ -361,7 +405,7 @@
   }
 
   .closeIcon {
-    color: rgba(255, 255, 255, 0.8);
+    color: #ffffff;
   }
 
   .modalTitle {
@@ -391,5 +435,9 @@
   .cancelButton {
     color: #fff;
     background: rgba(255, 255, 255, 0.15);
+  }
+
+  .closeButton {
+    --color: rgba(255, 255, 255, 0.8);
   }
 }
