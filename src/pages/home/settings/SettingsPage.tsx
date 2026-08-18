@@ -587,7 +587,7 @@ const SettingsPage: React.FC = () => {
                   <div className="item-text">
                     <h3 className="item-title">GitHub Repository</h3>
                     <p className="item-subtitle">
-                      Quellcode und das Projekt auf GitHub
+                      Quellcode
                     </p>
                   </div>
                 </div>
