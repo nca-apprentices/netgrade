@@ -1,8 +1,9 @@
 import { useFieldContext } from '@/shared/components/form';
-import { IonInput } from '@ionic/react';
+import { IonInput, IonNote } from '@ionic/react';
 import { ribbonOutline } from 'ionicons/icons';
 import React from 'react';
 import FormInput from '@/shared/components/form-field/form-input';
+import styles from '@/features/edit-exam/styles/grade-form.module.css';
 
 interface ScoreFieldProps {
   label: string;
@@ -44,6 +45,10 @@ export function GradeScoreField({ label }: ScoreFieldProps) {
         placeholder="6.0"
         required // probably not needed here
       />
+
+      <IonNote className={styles.gradeFieldHelper}>
+        Enter a grade between 1.0 and 6.0, steps of 0.1
+      </IonNote>
     </FormInput>
   );
 }
