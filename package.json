@@ -60,9 +60,9 @@
     "react-router-dom": "^5.3.4",
     "reflect-metadata": "^0.2.2",
     "reselect": "^5.2.0",
-    "sql.js": "^1.14.1",
+    "sql.js": "^1.14.2",
     "swiper": "^14.0.5",
-    "typeorm": "^0.3.31",
+    "typeorm": "^1.1.0",
     "uuid": "^14.0.1",
     "xlsx": "^0.18.5",
     "zod": "^4.4.3"
