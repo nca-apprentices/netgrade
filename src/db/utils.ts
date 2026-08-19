@@ -12,23 +12,28 @@ import { ValueTransformer } from 'typeorm';
  * to a JavaScript `Date` object, potentially returning a string instead. This transformer
  * ensures the `date` property is consistently a `Date` object in the application code.
  */
+export const toDateOnlyString = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
 export const dateTransformer: ValueTransformer = {
   to: (value: Date | null | undefined): string | null => {
-    // Convert Date to a string format suitable for your DB (e.g., ISO string)
-    if (value instanceof Date && !isNaN(value.getTime())) {
-      // 'YYYY-MM-DD'
-      return value.toISOString().split('T')[0];
-    }
-    return null;
+    if (!(value instanceof Date) || isNaN(value.getTime())) return null;
+
+    return toDateOnlyString(value);
   },
   from: (value: string | null | undefined): Date | null => {
-    // Convert string from DB back to Date
-    if (typeof value === 'string') {
-      const date = new Date(value);
-      if (!isNaN(date.getTime())) {
-        return date;
-      }
+    if (typeof value !== 'string') return null;
+
+    const parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (parts) {
+      const [, year, month, day] = parts;
+      return new Date(Number(year), Number(month) - 1, Number(day));
     }
-    return null;
+    const fallback = new Date(value);
+    return isNaN(fallback.getTime()) ? null : fallback;
   },
 };
