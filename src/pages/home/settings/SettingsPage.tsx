@@ -17,6 +17,7 @@ import {
   informationCircleOutline,
   trashOutline,
   documentTextOutline,
+  logoGithub,
 } from 'ionicons/icons';
 import popupStyles from '@/components/modals/popup-modal.module.css';
 import { Routes } from '@/routes';
@@ -53,6 +54,7 @@ import EmptySchoolCard from '@/pages/home/settings/components/emptySchoolCard/Em
 import SemesterCard from '@/pages/home/settings/components/semesterCard/SemesterCard';
 import EmptySemesterCard from '@/pages/home/settings/components/emptySemesterCard/EmptySemesterCard';
 import AlertSemesterButton from '@/pages/home/settings/components/alertSemesterButton/AlertSemesterButton';
+import { Browser } from '@capacitor/browser';
 
 const SettingsPage: React.FC = () => {
   const [showAddSchoolModal, setShowAddSchoolModal] = useState(false);
@@ -351,6 +353,10 @@ const SettingsPage: React.FC = () => {
     );
   };
 
+  const handleOpenGitHub = async () => {
+    await Browser.open({ url: 'https://github.com/kevin-nca/netgrade' });
+  };
+
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -566,6 +572,21 @@ const SettingsPage: React.FC = () => {
                   <div className="item-text">
                     <h3 className="item-title">Alle Daten löschen</h3>
                     <p className="item-subtitle">App komplett zurücksetzen</p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className="settings-item glass-card"
+                onClick={handleOpenGitHub}
+              >
+                <div className="item-content">
+                  <div className="item-icon github">
+                    <IonIcon icon={logoGithub} />
+                  </div>
+                  <div className="item-text">
+                    <h3 className="item-title">GitHub Repository</h3>
+                    <p className="item-subtitle">Quellcode</p>
                   </div>
                 </div>
               </div>
