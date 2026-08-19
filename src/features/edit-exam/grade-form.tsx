@@ -106,7 +106,7 @@ export const GradeForm: React.FC<GradeFormProps> = ({
                 </div>
 
                 <IonNote className={styles.gradeFieldHelper}>
-                  Enter a grade between 1.0 and 6.0, steps of 0.1
+                  Enter a grade between 1.0 and 6.0
                 </IonNote>
               </div>
             </IonItem>
