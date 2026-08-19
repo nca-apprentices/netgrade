@@ -89,6 +89,17 @@
   color: rgba(0, 0, 0, 0.5);
 }
 
+.exam-date-relative {
+  color: #007aff;
+  font-weight: 600;
+}
+
+.exam-date-relative::before {
+  content: '·';
+  margin-right: 4px;
+  color: rgba(128, 128, 128, 0.9);
+}
+
 .exam-status-dot {
   width: 6px;
   height: 6px;

@@ -44,7 +44,6 @@ const CalendarPage: React.FC = () => {
     setSelectedDate,
     setViewMode,
     changeMonth,
-    getRelativeDate,
   } = useCalendar(allExams);
 
   const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
@@ -136,7 +135,6 @@ const CalendarPage: React.FC = () => {
               <ExamListView
                 groupedExams={groupedExams}
                 onSelectExam={handleSelectExam}
-                getRelativeDate={getRelativeDate}
               />
             )}
           </>

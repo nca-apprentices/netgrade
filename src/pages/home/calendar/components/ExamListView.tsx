@@ -2,6 +2,7 @@ import React from 'react';
 import { IonIcon } from '@ionic/react';
 import { time, book } from 'ionicons/icons';
 import { Exam } from '@/db/entities/Exam';
+import { formatExamDate, formatExamDistance } from '@/utils/examDate';
 import './ExamListView.css';
 
 interface ExamListViewProps {
@@ -11,13 +12,11 @@ interface ExamListViewProps {
     exams: Exam[];
   }[];
   onSelectExam: (exam: Exam) => void;
-  getRelativeDate: (date: Date) => string;
 }
 
 const ExamListView: React.FC<ExamListViewProps> = ({
   groupedExams,
   onSelectExam,
-  getRelativeDate,
 }) => {
   const allExams = groupedExams.flatMap((group) => group.exams);
 
@@ -38,7 +37,10 @@ const ExamListView: React.FC<ExamListViewProps> = ({
               <h3 className="exam-name">{exam.name}</h3>
               <div className="exam-date-text">
                 <IonIcon icon={time} />
-                <span>{getRelativeDate(exam.date)}</span>
+                <span>{formatExamDate(exam.date)}</span>
+                <span className="exam-date-relative">
+                  {formatExamDistance(exam.date)}
+                </span>
               </div>
             </div>
 

@@ -452,6 +452,17 @@
   font-weight: 500;
 }
 
+.exam-date-relative {
+  color: #007aff;
+  font-weight: 600;
+}
+
+.exam-date-relative::before {
+  content: '·';
+  margin-right: 3px;
+  color: rgba(128, 128, 128, 0.9);
+}
+
 .meta-icon {
   font-size: 10px;
 }
