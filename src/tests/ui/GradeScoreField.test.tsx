@@ -22,6 +22,14 @@ vi.mock('@ionic/react', () => ({
       onBlur={props.onIonBlur}
     />
   ),
+  IonNote: (props: { children?: React.ReactNode; color?: string }) => (
+    <div
+      data-testid="ion-note"
+      className={props.color ? `ion-note-${props.color}` : ''}
+    >
+      {props.children}
+    </div>
+  ),
 }));
 vi.mock('@/shared/components/form-field/form-input.tsx', () => ({
   default: (props: { children: React.ReactNode; error?: string }) => (

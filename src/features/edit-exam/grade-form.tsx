@@ -13,6 +13,7 @@ import {
   IonRange,
   IonInput,
   IonSpinner,
+  IonNote,
 } from '@ionic/react';
 import {
   cameraOutline,
@@ -74,33 +75,39 @@ export const GradeForm: React.FC<GradeFormProps> = ({
               </IonLabel>
             </IonItemDivider>
             <IonItem className={styles.formItem}>
-              <div className={styles.gradeInputContainer}>
-                <div className={styles.gradeInputSmall}>
-                  <IonInput
-                    type="number"
-                    value={formValues.score}
-                    onIonInput={(e) =>
-                      onFieldChange('score', parseFloat(e.detail.value!) || 1)
-                    }
-                    step="0.1"
-                    min={1}
-                    max={6}
-                  />
+              <div className={styles.gradeFieldGroup}>
+                <div className={styles.gradeInputContainer}>
+                  <div className={styles.gradeInputSmall}>
+                    <IonInput
+                      type="number"
+                      value={formValues.score}
+                      onIonInput={(e) =>
+                        onFieldChange('score', parseFloat(e.detail.value!) || 1)
+                      }
+                      step="0.1"
+                      min={1}
+                      max={6}
+                    />
+                  </div>
+                  <div className={styles.rangeContainer}>
+                    <IonRange
+                      value={formValues.score}
+                      onIonInput={(e) =>
+                        onFieldChange('score', e.detail.value as number)
+                      }
+                      min={1}
+                      max={6}
+                      step={0.5}
+                      snaps
+                      color={getGradeColor(formValues.score)}
+                      className={styles.rangeInput}
+                    />
+                  </div>
                 </div>
-                <div className={styles.rangeContainer}>
-                  <IonRange
-                    value={formValues.score}
-                    onIonInput={(e) =>
-                      onFieldChange('score', e.detail.value as number)
-                    }
-                    min={1}
-                    max={6}
-                    step={0.5}
-                    snaps
-                    color={getGradeColor(formValues.score)}
-                    className={styles.rangeInput}
-                  />
-                </div>
+
+                <IonNote className={styles.gradeFieldHelper}>
+                  Enter a grade between 1.0 and 6.0
+                </IonNote>
               </div>
             </IonItem>
           </IonItemGroup>
