@@ -328,20 +328,25 @@
 .empty-schools,
 .empty-exams {
   grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 24px 16px;
   border-radius: 16px;
+  min-height: 160px;
 }
 
 .empty-icon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 12px;
 }
 
 .empty-icon {
-  font-size: 32px;
+  width: 60px;
+  height: 60px;
   color: #007aff;
   opacity: 0.7;
 }
