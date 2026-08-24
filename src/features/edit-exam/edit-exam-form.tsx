@@ -15,6 +15,7 @@ import {
   type EditExamFormData,
 } from './schema/edit-exam-schema';
 import { Exam } from '@/db/entities/Exam';
+import { toDateOnlyString } from '@/db/utils';
 
 interface EditExamFormProps {
   exam: Exam;
@@ -40,7 +41,7 @@ export function EditExamForm({
     // rather than the form being populated after mount.
     defaultValues: {
       title: exam.name,
-      date: exam.date.toISOString().split('T')[0],
+      date: toDateOnlyString(exam.date),
       subject: exam.subjectId,
       description: exam.description || '',
     } as EditExamFormData,
