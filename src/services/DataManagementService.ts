@@ -1,7 +1,7 @@
 import { PreferencesService } from './PreferencesService';
 import { WidgetService } from './WidgetService';
 import { getDataSource, getRepositories } from '@/db/data-source';
-import { toDateOnlyString } from '@/db/utils';
+import { fromDateOnlyString, toDateOnlyString } from '@/db/utils';
 import { School } from '@/db/entities';
 import * as XLSX from 'xlsx';
 import { Filesystem, Directory } from '@capacitor/filesystem';
@@ -253,7 +253,10 @@ export class DataManagementService {
           (key === 'date' || key === 'startDate' || key === 'endDate') &&
           typeof value === 'string'
         ) {
-          return new Date(value);
+          // Must mirror the export, which writes local date parts via
+          // toDateOnlyString. Parsing with new Date() would read them as UTC
+          // and move the day back for anyone behind UTC.
+          return fromDateOnlyString(value);
         }
         return value;
       });
