@@ -43,7 +43,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
             }}
           >
             <div className="tab-icon-wrapper">
-              <IonIcon icon={homeOutline} className="tab-icon" />
+              <IonIcon icon={homeOutline} className="tab-icon" aria-hidden={true} />
             </div>
             <span className="tab-label">Home</span>
           </div>
@@ -54,7 +54,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
             }}
           >
             <div className="tab-icon-wrapper">
-              <IonIcon icon={calendar} className="tab-icon" />
+              <IonIcon icon={calendar} className="tab-icon" aria-hidden={true} />
             </div>
             <span className="tab-label">Kalender</span>
           </div>
@@ -63,7 +63,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
               className="tab-fab-button"
               onClick={() => history.push(Routes.EXAMS_SCAN)}
             >
-              <IonIcon icon={add} className="tab-fab-icon" />
+              <IonIcon icon={add} className="tab-fab-icon" aria-hidden={true} />
             </button>
             <span className="tab-fab-label">Neu</span>
           </div>
@@ -74,7 +74,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
             }}
           >
             <div className="tab-icon-wrapper">
-              <IonIcon icon={trophyOutline} className="tab-icon" />
+              <IonIcon icon={trophyOutline} className="tab-icon" aria-hidden={true} />
             </div>
             <span className="tab-label">Noten</span>
           </div>
@@ -85,7 +85,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
             }}
           >
             <div className="tab-icon-wrapper">
-              <IonIcon icon={settings} className="tab-icon" />
+              <IonIcon icon={settings} className="tab-icon" aria-hidden={true} />
             </div>
             <span className="tab-label">Mehr</span>
           </div>

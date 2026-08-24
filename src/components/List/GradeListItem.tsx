@@ -36,16 +36,16 @@ const GradeListItem: React.FC<GradeListItemProps> = ({
           <h3 className="grade-exam-name">{grade.exam.name}</h3>
           <div className="grade-details">
             <div className="grade-detail-item">
-              <IonIcon icon={scale} />
+              <IonIcon icon={scale} aria-label={scale} />
               <span>{weightPercentage}%</span>
             </div>
             <div className="grade-detail-item">
-              <IonIcon icon={calendar} />
+              <IonIcon icon={calendar} aria-label={calendar} />
               <span>{new Date(grade.date).toLocaleDateString()}</span>
             </div>
             {grade.comment && (
               <div className="grade-detail-item">
-                <IonIcon icon={chatbubble} />
+                <IonIcon icon={chatbubble} aria-hidden={true}/>
                 <span>{grade.comment}</span>
               </div>
             )}
@@ -60,7 +60,7 @@ const GradeListItem: React.FC<GradeListItemProps> = ({
               onEdit();
             }}
           >
-            <IonIcon icon={createOutline} />
+            <IonIcon icon={createOutline} aria-hidden={true} />
           </button>
           <button
             className="grade-action-button delete"
@@ -69,7 +69,7 @@ const GradeListItem: React.FC<GradeListItemProps> = ({
               onDelete();
             }}
           >
-            <IonIcon icon={trashOutline} />
+            <IonIcon icon={trashOutline} aria-hidden={true} />
           </button>
         </div>
       </div>
