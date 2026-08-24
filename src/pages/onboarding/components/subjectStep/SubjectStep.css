@@ -65,7 +65,7 @@
   margin-bottom: 24px;
 }
 
-.schools-grid {
+.school-selector-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 12px;
@@ -147,7 +147,7 @@
 }
 
 @media (max-width: 480px) {
-  .schools-grid {
+  .school-selector-grid {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 8px;
   }
