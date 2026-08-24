@@ -204,7 +204,11 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                 <div className="header-content">
                   <div className="header-flex">
                     <div className="header-icon-wrapper">
-                      <IonIcon icon={sparklesSharp} className="header-icon" aria-hidden={true} />
+                      <IonIcon
+                        icon={sparklesSharp}
+                        className="header-icon"
+                        aria-hidden={true}
+                      />
                     </div>
                     <div className="header-text">
                       <h1>Excel-Export</h1>

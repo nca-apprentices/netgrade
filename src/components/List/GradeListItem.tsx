@@ -45,7 +45,7 @@ const GradeListItem: React.FC<GradeListItemProps> = ({
             </div>
             {grade.comment && (
               <div className="grade-detail-item">
-                <IonIcon icon={chatbubble} aria-hidden={true}/>
+                <IonIcon icon={chatbubble} aria-hidden={true} />
                 <span>{grade.comment}</span>
               </div>
             )}
