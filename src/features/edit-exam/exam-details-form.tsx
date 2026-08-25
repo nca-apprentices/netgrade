@@ -36,7 +36,7 @@ import {
   trophyOutline,
 } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
-import { useForm } from '@tanstack/react-form';
+import { useForm, useSelector } from '@tanstack/react-form';
 import {
   useAddGradeWithExam,
   useAddExamScans,
@@ -111,7 +111,10 @@ const GradeTab = ({
     },
   });
 
-  const gradeFormValues = gradeForm.state.values as GradeFormData;
+  const gradeFormValues = useSelector(
+    gradeForm.store,
+    (state) => state.values,
+  ) as GradeFormData;
 
   // Hand the parent a live check so its back button can ask this tab whether it
   // has unsaved input.
