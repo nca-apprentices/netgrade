@@ -56,7 +56,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = () => {
             <div className="tab-icon-wrapper">
               <IonIcon icon={calendar} className="tab-icon" />
             </div>
-            <span className="tab-label">Kalender.</span>
+            <span className="tab-label">Kalender</span>
           </div>
           <div className="tab-fab">
             <button
