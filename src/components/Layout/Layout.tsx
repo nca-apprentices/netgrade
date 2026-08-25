@@ -3,7 +3,6 @@ import { IonContent, IonPage } from '@ionic/react';
 import { useIonRouter } from '@ionic/react';
 import { createGesture } from '@ionic/core';
 
-// comment to test verification for github //
 
 interface LayoutProps {
   children: React.ReactNode;
