@@ -15,17 +15,20 @@
 }
 
 .settings-item .item-extra {
-  max-height: 30px;
+  display: grid;
+  grid-template-rows: 0fr;
   overflow: hidden;
   transition: max-height 0.3s ease;
 }
 
 .settings-item.expanded .item-extra {
-  max-height: 200px;
+  max-height: 500px;
 }
 
 .edit-buttons {
-  padding-top: 19px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .save-button {
@@ -45,8 +48,7 @@
 }
 
 .delete-text {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--ion-color-danger, #ff3b30);
   padding-left: 8px;
-  padding-top: 4px;
   font-size: 16px;
 }
