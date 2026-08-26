@@ -177,6 +177,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                     icon={close}
                     slot="icon-only"
                     className="header-close-icon"
+                    aria-hidden={true}
                   />
                 </IonButton>
               </IonButtons>
@@ -189,6 +190,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                     icon={close}
                     slot="icon-only"
                     className="header-close-icon"
+                    aria-hidden={true}
                   />
                 </IonButton>
               </IonButtons>
@@ -202,7 +204,11 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                 <div className="header-content">
                   <div className="header-flex">
                     <div className="header-icon-wrapper">
-                      <IonIcon icon={sparklesSharp} className="header-icon" />
+                      <IonIcon
+                        icon={sparklesSharp}
+                        className="header-icon"
+                        aria-hidden={true}
+                      />
                     </div>
                     <div className="header-text">
                       <h1>Excel-Export</h1>
@@ -233,6 +239,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                         <IonIcon
                           icon={layersOutline}
                           className="all-schools-icon"
+                          aria-hidden={true}
                         />
                       </div>
                       <IonLabel className="school-label">
@@ -301,6 +308,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                         <IonIcon
                           icon={pencilOutline}
                           className="filename-icon"
+                          aria-hidden={true}
                         />
                       </div>
                       <IonInput
@@ -328,6 +336,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                     icon={isNative ? shareOutline : downloadOutline}
                     slot="start"
                     className="export-button-icon"
+                    aria-hidden={true}
                   />
                   {isNative ? 'Exportieren und teilen' : 'Jetzt herunterladen'}
                 </IonButton>
@@ -343,6 +352,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                         <IonIcon
                           icon={documentTextOutline}
                           className="detail-icon detail-icon-file"
+                          aria-hidden={true}
                         />
                       </div>
                       <div className="detail-content">
@@ -360,6 +370,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                               : schoolOutline
                           }
                           className="detail-icon detail-icon-school"
+                          aria-hidden={true}
                         />
                       </div>
                       <div className="detail-content">
@@ -379,6 +390,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                           <IonIcon
                             icon={personOutline}
                             className="detail-icon detail-icon-user"
+                            aria-hidden={true}
                           />
                         </div>
                         <div className="detail-content">
@@ -393,6 +405,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                         <IonIcon
                           icon={calendarOutline}
                           className="detail-icon detail-icon-date"
+                          aria-hidden={true}
                         />
                       </div>
                       <div className="detail-content">
@@ -419,6 +432,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                         <IonIcon
                           icon={layersOutline}
                           className="info-card-icon"
+                          aria-hidden={true}
                         />
                         <span className="info-card-title">
                           Multi-School Export

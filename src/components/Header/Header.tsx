@@ -41,6 +41,7 @@ const Header: React.FC<HeaderProps> = ({
                   icon={chevronBack}
                   slot="start"
                   className="header-back-icon"
+                  aria-hidden={true}
                 />
                 Zurück
               </IonButton>

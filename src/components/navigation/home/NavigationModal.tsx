@@ -60,7 +60,11 @@ const NavigationModal: React.FC<SlideUpProps> = ({ isOpen, setIsOpen }) => {
             lines="none"
           >
             <div className="nav-modal-icon-box" slot="start">
-              <IonIcon icon={ribbonOutline} className="nav-modal-icon" />
+              <IonIcon
+                icon={ribbonOutline}
+                className="nav-modal-icon"
+                aria-hidden={true}
+              />
             </div>
             <span className="text">Note</span>
           </IonItem>
@@ -71,7 +75,11 @@ const NavigationModal: React.FC<SlideUpProps> = ({ isOpen, setIsOpen }) => {
             lines="none"
           >
             <div className="nav-modal-icon-box" slot="start">
-              <IonIcon icon={documentTextOutline} className="nav-modal-icon" />
+              <IonIcon
+                icon={documentTextOutline}
+                className="nav-modal-icon"
+                aria-hidden={true}
+              />
             </div>
             <span className="text">Anstehende Prüfung</span>
           </IonItem>
@@ -82,7 +90,11 @@ const NavigationModal: React.FC<SlideUpProps> = ({ isOpen, setIsOpen }) => {
             lines="none"
           >
             <div className="nav-modal-icon-box" slot="start">
-              <IonIcon icon={calendarOutline} className="nav-modal-icon" />
+              <IonIcon
+                icon={calendarOutline}
+                className="nav-modal-icon"
+                aria-hidden={true}
+              />
             </div>
             <span className="text">Semester</span>
           </IonItem>
