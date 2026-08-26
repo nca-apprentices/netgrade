@@ -1,5 +1,6 @@
 import React from 'react';
 import { IonAlert } from '@ionic/react';
+import './unsaved-changes-alert.css';
 
 interface UnsavedChangesAlertProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ const UnsavedChangesAlert: React.FC<UnsavedChangesAlertProps> = ({
   onDiscard,
 }) => (
   <IonAlert
+    cssClass="unsaved-changes-alert"
     isOpen={isOpen}
     onDidDismiss={onDismiss}
     header="Änderungen verwerfen?"

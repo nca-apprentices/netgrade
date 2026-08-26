@@ -1,0 +1,27 @@
+.unsaved-changes-alert {
+  --background: linear-gradient(
+    135deg,
+    rgba(44, 44, 46, 0.92) 0%,
+    rgba(28, 28, 30, 0.92) 100%
+  );
+  --backdrop-opacity: 0.6;
+  --max-width: 320px;
+}
+
+.unsaved-changes-alert .alert-wrapper {
+  border-radius: 24px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.unsaved-changes-alert .alert-title {
+  color: #ffffff;
+}
+
+.unsaved-changes-alert .alert-message {
+  color: rgba(255, 255, 255, 0.7);
+}
