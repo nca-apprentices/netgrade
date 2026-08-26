@@ -20,6 +20,7 @@ import {
   useUpdateExamAndGrade,
 } from '@/hooks/queries';
 import { decimalToPercentage, percentageToDecimal } from '@/utils/validation';
+import { toDateOnlyString } from '@/db/utils';
 import { useAppForm } from '@/shared/components/form';
 import {
   type EditGradeFormData,
@@ -124,7 +125,7 @@ const GradeEntryForm: React.FC<GradeEntryFormProps> = ({
     form.setFieldValue('examName', grade.exam.name);
     form.setFieldValue('score', grade.score);
     form.setFieldValue('weight', String(decimalToPercentage(grade.weight)));
-    form.setFieldValue('date', grade.date.toISOString().split('T')[0]);
+    form.setFieldValue('date', toDateOnlyString(grade.date));
     form.setFieldValue('comment', grade.comment || '');
   };
 

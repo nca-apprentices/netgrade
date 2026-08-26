@@ -38,21 +38,41 @@
   line-height: 1.5;
 }
 
+.gradeFieldGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .gradeInputContainer {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
 }
 
 .gradeInputSmall {
-  background: white;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 72px;
+  flex-shrink: 0;
+  min-width: 0;
+  min-height: 52px;
+}
+
+.gradeFieldHelper {
+  display: block;
+  margin-top: 4px;
+  padding-bottom: 6px;
+  font-size: 11px;
+  line-height: 1.2;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
 }
 
 .rangeContainer {
   flex: 1;
   padding: 0 11px;
+  margin-top: 14px;
 }
 
 .rangeInput {
@@ -71,6 +91,10 @@
 @media (prefers-color-scheme: dark) {
   .gradeInputSmall {
     background: #2c2c36;
+  }
+
+  .gradeFieldHelper {
+    color: rgba(255, 255, 255, 0.55);
   }
 }
 

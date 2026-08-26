@@ -1250,7 +1250,9 @@ describe('DataManagementService', () => {
       const examDate = savedSchools[0].subjects[0].exams[0].date;
 
       expect(examDate).toBeInstanceOf(Date);
-      expect(examDate.toISOString().startsWith('2023-12-24')).toBe(true);
+      expect(examDate.getFullYear()).toBe(2023);
+      expect(examDate.getMonth()).toBe(11);
+      expect(examDate.getDate()).toBe(24);
     });
 
     it('should successfully parse valid backup JSON and save to database', async () => {

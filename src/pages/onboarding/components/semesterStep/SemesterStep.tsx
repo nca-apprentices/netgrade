@@ -138,7 +138,7 @@ const SemesterStep: React.FC<SemesterStepProps> = ({
                 {data.schools.length > 1 && (
                   <div className="field-group">
                     <label className="field-label">Schule *</label>
-                    <div className="schools-grid">
+                    <div className="school-selector-grid">
                       {data.schools.map((school, index) => (
                         <div
                           key={school.id}

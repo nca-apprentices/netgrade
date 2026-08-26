@@ -172,7 +172,7 @@ const SubjectStep: React.FC<SubjectStepProps> = ({
         {data.schools.length > 1 && (
           <div className="school-selector">
             <h3 className="subsection-title">Schule auswählen</h3>
-            <div className="schools-grid">
+            <div className="school-selector-grid">
               {data.schools.map((school, index) => (
                 <div
                   key={school.id}
