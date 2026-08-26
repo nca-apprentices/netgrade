@@ -125,19 +125,19 @@
 
 @media (prefers-color-scheme: light) {
   .profile-settings-button {
-    background: #746f6f;
+    background: rgba(0, 122, 255, 0.1);
   }
 }
 
 .profile-settings-button:active {
   transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 122, 255, 0.2);
 }
 
 .profile-icon {
-  color: #fafafa;
-  width: 36px;
-  height: 36px;
+  color: #007aff;
+  width: 22px;
+  height: 22px;
 }
 
 /* Main Sections */
@@ -726,10 +726,16 @@
 
 /* Touch Optimizations */
 @media (pointer: coarse) {
-  .header-action-button,
+  .header-action-button {
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 11px;
+  }
+
   .profile-settings-button {
     min-width: 44px;
     min-height: 44px;
+    border-radius: 12px;
   }
 
   .school-card,
