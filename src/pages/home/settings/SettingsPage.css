@@ -278,40 +278,34 @@
 }
 
 .settings-item .item-extra {
-  max-height: 30px;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
+  margin-top: 16px;
 }
 
-.delete-button {
-  padding-top: 16px;
+.item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
-.delete-text {
-  color: rgba(255, 255, 255, 0.3);
-  padding-left: 8px;
-  padding-top: 4px;
+.item-actions ion-button {
+  margin: 0;
+}
+
+.edit-text,
+.delete-text,
+.save-text,
+.cancel-text {
   font-size: 16px;
-}
-
-.edit-text {
-  font-size: 16px;
-}
-
-.edit-button {
-  padding-top: 19px;
+  line-height: 1.2;
 }
 
 .save-button {
   --box-shadow: none !important;
 }
 
-.edit-buttons {
-  padding-top: 19px;
-}
-
-.settings-item.expanded .item-extra {
-  max-height: 200px;
+.delete-text {
+  color: inherit;
 }
 
 .modal-page {

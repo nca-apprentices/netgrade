@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonIcon, IonInput } from '@ionic/react';
+import { IonButton, IonIcon, IonInput } from '@ionic/react';
 import './SchoolCard.css';
 import {
   checkmarkOutline,
@@ -70,9 +70,9 @@ const SchoolCard = ({
 
       {isExpanded && (
         <div className="item-extra" onClick={(e) => e.stopPropagation()}>
-          <IonButtons slot="end">
+          <div className="item-actions">
             {isEditing ? (
-              <div className="edit-buttons">
+              <>
                 <IonButton
                   className="save-button"
                   color="success"
@@ -83,8 +83,8 @@ const SchoolCard = ({
                     editSchoolName.trim() === school.name
                   }
                 >
-                  <IonIcon slot="icon-only" icon={checkmarkOutline} />
-                  <p className="save-text">Speichern</p>
+                  <IonIcon slot="start" icon={checkmarkOutline} />
+                  <span className="save-text">Speichern</span>
                 </IonButton>
                 <IonButton
                   className="cancel-button"
@@ -92,10 +92,10 @@ const SchoolCard = ({
                   onClick={onCancel}
                   disabled={isSavePending}
                 >
-                  <IonIcon slot="icon-only" icon={closeOutline} />
-                  <p className="cancel-text">Abbrechen</p>
+                  <IonIcon slot="start" icon={closeOutline} />
+                  <span className="cancel-text">Abbrechen</span>
                 </IonButton>
-              </div>
+              </>
             ) : (
               <>
                 <IonButton
@@ -103,20 +103,20 @@ const SchoolCard = ({
                   color="primary"
                   onClick={onEdit}
                 >
-                  <IonIcon slot="icon-only" icon={pencilOutline} />
-                  <p className="edit-text">Bearbeiten</p>
+                  <IonIcon slot="start" icon={pencilOutline} />
+                  <span className="edit-text">Bearbeiten</span>
                 </IonButton>
                 <IonButton
                   className="delete-button"
                   color="danger"
                   onClick={onDelete}
                 >
-                  <IonIcon slot="icon-only" icon={trashOutline} />
-                  <p className="delete-text">Löschen</p>
+                  <IonIcon slot="start" icon={trashOutline} />
+                  <span className="delete-text">Löschen</span>
                 </IonButton>
               </>
             )}
-          </IonButtons>
+          </div>
         </div>
       )}
     </div>
