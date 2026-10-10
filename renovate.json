@@ -1,0 +1,84 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>nca-apprentices/.github"],
+  "enabledManagers": ["npm"],
+  "packageRules": [
+    { "groupName": "react-core", "matchPackageNames": ["react", "react-dom"] },
+    { "groupName": "react-types", "matchPackageNames": ["@types/react*"] },
+    {
+      "groupName": "ionic-and-routing",
+      "matchPackageNames": [
+        "@ionic/*",
+        "ionicons",
+        "react-router*",
+        "@types/react-router*"
+      ]
+    },
+    {
+      "groupName": "ionic-native",
+      "matchPackageNames": [
+        "@ionic-native/*",
+        "@awesome-cordova-plugins/*",
+        "cordova-plugin-*"
+      ]
+    },
+    {
+      "groupName": "capacitor-core",
+      "matchPackageNames": [
+        "@capacitor/core",
+        "@capacitor/cli",
+        "@capacitor/android",
+        "@capacitor/ios"
+      ]
+    },
+    {
+      "groupName": "capacitor-plugins",
+      "matchPackageNames": [
+        "@capacitor/*",
+        "!@capacitor/core",
+        "!@capacitor/cli",
+        "!@capacitor/android",
+        "!@capacitor/ios"
+      ]
+    },
+    { "groupName": "tanstack", "matchPackageNames": ["@tanstack/*"] },
+    { "groupName": "vitest", "matchPackageNames": ["vitest", "@vitest/*"] },
+    {
+      "groupName": "testing-library",
+      "matchPackageNames": ["@testing-library/*"]
+    },
+    { "groupName": "cypress", "matchPackageNames": ["cypress"] },
+    {
+      "groupName": "vite-stack",
+      "matchPackageNames": ["vite", "@vitejs/*", "vite-plugin-*", "terser"]
+    },
+    {
+      "groupName": "typescript-stack",
+      "matchPackageNames": ["typescript", "typescript-eslint"]
+    },
+    {
+      "groupName": "eslint-stack",
+      "matchPackageNames": ["eslint", "eslint-*", "@eslint/*", "globals"]
+    },
+    { "groupName": "prettier", "matchPackageNames": ["prettier"] },
+    { "groupName": "jsdom", "matchPackageNames": ["jsdom"] },
+    {
+      "groupName": "data-libs",
+      "matchPackageNames": [
+        "date-fns",
+        "localforage",
+        "reselect",
+        "reflect-metadata"
+      ]
+    },
+    { "groupName": "database", "matchPackageNames": ["typeorm", "sql.js"] },
+    {
+      "groupName": "misc-ui",
+      "matchPackageNames": ["react-calendar", "swiper"]
+    },
+    {
+      "groupName": "misc-utils",
+      "matchPackageNames": ["xlsx", "es6-promise-plugin"]
+    }
+  ]
+}
